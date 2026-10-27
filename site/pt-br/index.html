@@ -28,7 +28,7 @@
     <div class="hero">
       <div>
         <h1>A IA conversa. <span>As regras decidem.</span></h1>
-        <p class="lead">O cliente diz "Não reconheço esta cobrança". O Sentinel responde com um caso verificado em uma conversa, ou entrega a um atendente um dossiê completo. Em espanhol e português. Age só quando a política permite, e nunca inventa um fato.</p>
+        <p class="lead">O cliente diz “Não reconheço esta cobrança”. O Sentinel verifica os dados. Depois abre um caso verificado ou entrega ao atendente um processo completo. A conversa continua em espanhol ou português. O Sentinel age apenas quando a política permite. Nunca inventa um dado.</p>
         <div class="row">
           <a class="btn" href="#demo">Ver os casos</a> <a class="btn alt" href="diagrams/architecture.html">Explorar a arquitetura</a>
         </div>
@@ -41,7 +41,7 @@
             <span class="ok">Fato verificado na sua conta</span>
             <div class="fake-btn" aria-hidden="true">Sim, abrir a disputa</div>
           </div>
-          <p class="note">A tela do cliente assume a marca do banco. O produto é a camada de confiança que fica por baixo.</p>
+          <p class="note">A tela do cliente usa a marca do banco. O produto é a camada de confiança por baixo.</p>
         </div>
       </div>
     </div>
@@ -53,35 +53,35 @@
       <li><a href="#demo">Demo</a></li>
       <li><a href="#screens">Capturas</a></li>
       <li><a href="#limits">Limites e roteiro</a></li>
-      <li><a href="#team">Equipe</a></li>
     </ul>
 
     <section id="how" aria-labelledby="how-h">
-      <h2 id="how-h">Cinco passos, cada um verificável</h2>
-      <div class="grid">
-        <div class="card"><span class="step">1</span><h3>Entender</h3><p>Um modelo de linguagem lê o pedido e rotula a intenção.</p></div>
-        <div class="card"><span class="step">2</span><h3>Buscar</h3><p>O código lê as cobranças reais da conta da sessão. O modelo não vê nenhum id de cliente.</p></div>
-        <div class="card"><span class="step">3</span><h3>Decidir</h3><p>O motor de políticas, em código, permite, recusa ou transfere.</p></div>
-        <div class="card"><span class="step">4</span><h3>Verificar</h3><p>O código confirma que o caso existe antes de dizê-lo.</p></div>
-        <div class="card"><span class="step">5</span><h3>Transferir</h3><p>Se há fraude ou um valor alto, um atendente recebe os fatos verificados.</p></div>
-      </div>
+      <h2 id="how-h">Cinco passos. Cada um é fácil de verificar.</h2>
+      <p class="note">Pense em uma agência bancária. O modelo é o funcionário que escuta. A política é o manual de regras. O código é o caixa que confere o recibo antes de mover dinheiro.</p>
+      <ul>
+        <li><b>Entenda.</b> Um modelo de linguagem lê a solicitação. Etiqueta a intenção.</li>
+        <li><b>Consulte.</b> O código lê as cobranças da conta da sessão. O modelo nunca vê o id do cliente.</li>
+        <li><b>Decida.</b> O motor de políticas é código. Permite, recusa ou encaminha.</li>
+        <li><b>Verifique.</b> O código verifica que o caso existe. Só diz isso depois da verificação.</li>
+        <li><b>Encaminhe.</b> Fraude ou um valor alto vai para um atendente. O atendente recebe os dados verificados.</li>
+      </ul>
     </section>
 
     <section id="explore" aria-labelledby="explore-h">
       <h2 id="explore-h">Veja como funciona</h2>
       <div class="grid">
-        <a class="card" href="diagrams/architecture.html"><span class="eyebrow">Arquitetura</span><p>Cada parte, marcada como real ou mock. Mude para produção para ver o que substitui cada mock.</p></a>
-        <a class="card" href="diagrams/turn.html"><span class="eyebrow">Um turno do chat</span><p>Sete passos. Quem decide, o que entra e o que sai, e o que pode interromper o turno.</p></a>
-        <a class="card" href="diagrams/cases.html"><span class="eyebrow">Três casos</span><p>Normal, ambíguo e é preciso uma pessoa, em um único mapa de decisão.</p></a>
-        <a class="card" href="diagrams/evidence.html"><span class="eyebrow">Evidências</span><p>Cada barra com seu denominador, seu tipo e seu campo do resumo.</p></a>
-        <a class="card" href="for-banks.html"><span class="eyebrow">Para bancos</span><p>O que é necessário para levar isto a um banco: caminho para a produção, segurança e controle, e respostas a perguntas frequentes.</p></a>
+        <a class="card" href="diagrams/architecture.html"><span class="eyebrow">Arquitetura</span><p>Veja cada parte. Cada parte está marcada como real ou mock. Mude para produção para ver a substituição de cada mock.</p></a>
+        <a class="card" href="diagrams/turn.html"><span class="eyebrow">Um turno do chat</span><p>Sete passos. Veja quem decide, o que entra e o que sai, e o que pode interromper o turno.</p></a>
+        <a class="card" href="diagrams/cases.html"><span class="eyebrow">Três casos</span><p>Normal, ambíguo e é preciso uma pessoa. Os três em um único mapa.</p></a>
+        <a class="card" href="diagrams/evidence.html"><span class="eyebrow">Evidências</span><p>Cada barra mostra seu denominador, seu tipo e seu campo do resumo.</p></a>
+        <a class="card" href="for-banks.html"><span class="eyebrow">Para bancos</span><p>O que é necessário para levar isto a um banco. Veja o caminho para a produção, a segurança e o controle, e as perguntas frequentes.</p></a>
         <a class="card" href="slides/deck.html"><span class="eyebrow">Slides</span><p>Seis slides: por quê, o quê, como, prova, para o banco, limites e roteiro.</p></a>
       </div>
     </section>
 
     <section id="proof" aria-labelledby="proof-h">
       <h2 id="proof-h">Resultados, com seu tipo</h2>
-      <p class="note">Cada número vem de um <code>summary.json</code> congelado por meio de <code>site/numbers.json</code>. O rótulo diz que tipo de número é. Uma simulação não é uma medição de produção. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/what-is-real.md">O que é real</a>.</p>
+      <p class="note">Cada número vem de um <code>summary.json</code> congelado, por meio de <code>site/numbers.json</code>. Um rótulo indica o tipo. Uma simulação não é uma medição de produção. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/what-is-real.md">O que é real</a>.</p>
       <div class="grid">
         <div class="card">
           <span class="tag test" data-num-type="adv_attempted">Suíte de testes</span>
@@ -104,13 +104,13 @@
         <div class="card">
           <span class="tag" data-num-type="intent_router">Simulação</span>
           <span class="big" data-num="intent_router">81,8%</span>
-          <p>de <span data-num-den="intent_router">308</span> turnos de teste selados que o roteador LLM entende bem. O baseline de palavras-chave obtém <span data-num="intent_baseline">69,2%</span>. Um prompt mais novo obteve mais, mas não passou no controle de segurança, então não o colocamos em serviço.</p>
+          <p>de <span data-num-den="intent_router">308</span> turnos de teste selados que o roteador LLM entende bem. A linha de base de palavras-chave obtém <span data-num="intent_baseline">69,2%</span>. Um prompt mais novo obteve mais. Não passou no controle de segurança, então não o colocamos em produção.</p>
           <span class="src">evaluation-runs/2024Q4-eval-v8 · candidates.router_v2.intent.accuracy</span>
         </div>
         <div class="card">
           <span class="tag" data-num-type="ceil_resolved">Simulação</span>
           <span class="big"><span data-num="ceil_resolved">16</span> de <span data-num-den="ceil_resolved">16</span></span>
-          <p>casos resolvíveis resolvidos. A política permite resolver <span data-num="ceil_resolvable">16</span> de <span data-num-den="ceil_resolvable">56</span> casos. Os demais precisam de uma transferência ou de uma pergunta. <span data-num="res_unsafe">0/56</span> terminam de forma insegura. O roteador soma <span data-num="res_net">0</span> casos sobre a linha de base: a linha de base chega ao mesmo teto.</p>
+          <p>casos resolvíveis resolvidos. A política deixa resolver <span data-num="ceil_resolvable">16</span> de <span data-num-den="ceil_resolvable">56</span> casos. Os outros casos precisam de um encaminhamento ou de uma pergunta. <span data-num="res_unsafe">0/56</span> terminam de forma insegura. O roteador soma <span data-num="res_net">0</span> casos sobre a linha de base. A linha de base chega ao mesmo teto.</p>
           <span class="src">evaluation-runs/2024Q4-resolution-gap-v1 · ceiling.router_v2</span>
         </div>
         <div class="card">
@@ -124,7 +124,7 @@
 
     <section id="demo" aria-labelledby="demo-h">
       <h2 id="demo-h">Quatro casos para testar</h2>
-      <p class="note">O cliente responde em es-MX, es-CO, es-AR ou pt-BR. Os dados da demo são sintéticos e o armazém Gold é um mock identificado.</p>
+      <p class="note">O cliente responde em es-MX, es-CO, es-AR ou pt-BR. Os dados são sintéticos. O armazenamento Gold é um mock rotulado.</p>
       <div class="grid">
         <div class="card"><span class="eyebrow">Caso normal</span><p>Uma cobrança, uma confirmação, um número de caso verificado.</p></div>
         <div class="card"><span class="eyebrow">Caso ambíguo</span><p>Várias compras iguais. O sistema pergunta qual antes de agir.</p></div>
@@ -138,7 +138,7 @@
     </section>
     <section id="screens" aria-labelledby="screens-h">
       <h2 id="screens-h">Capturas de tela</h2>
-      <p class="note">Telas reais da demo em funcionamento em um celular, em espanhol e em português. A demo usa dados de teste e a linha de base de palavras-chave, como diz o rodapé de cada tela. Capturadas com <code>scripts/capture_ui_product.py</code>.</p>
+      <p class="note">Capturas reais da demonstração em um telefone, em espanhol e português. A demonstração usa dados de teste e a linha de base de palavras-chave. O rodapé de cada tela diz isso. Feitas com <code>scripts/capture_ui_product.py</code>.</p>
       <div class="shots">
         <figure><a href="../screenshots/entry-es-mx-phone.png"><img src="../screenshots/entry-es-mx-phone.png" width="390" height="1683" loading="lazy" alt="Página de entrada da demo em um celular, em espanhol (México), com quatro casos de teste."></a><figcaption>Página de entrada · Espanhol (México)</figcaption></figure>
         <figure><a href="../screenshots/chat-es-mx-phone.png"><img src="../screenshots/chat-es-mx-phone.png" width="390" height="1538" loading="lazy" alt="Chat em um celular, em espanhol (México), depois que um caso verificado é aberto."></a><figcaption>Chat após um caso verificado · Espanhol (México)</figcaption></figure>
@@ -153,11 +153,11 @@
         <div class="card">
           <h3>Limites</h3>
           <ul>
-            <li><b>Dados:</b> sintéticos, só em espanhol, de três países. Os casos em português foram escritos por um modelo.</li>
-            <li><b>Teto:</b> a política permite resolver <span data-num="ceil_resolvable">16</span> de <span data-num-den="ceil_resolvable">56</span> casos simulados (<span data-num-type="ceil_resolvable">Simulação</span>). O sistema resolve todos eles e nenhum outro.</li>
+            <li><b>Dados:</b> sintéticos, apenas em espanhol, para três países. Um modelo escreveu os casos em português.</li>
+            <li><b>Teto:</b> a política deixa resolver <span data-num="ceil_resolvable">16</span> de <span data-num-den="ceil_resolvable">56</span> casos simulados (<span data-num-type="ceil_resolvable">Simulação</span>). O sistema resolve todos. Não resolve nenhum outro.</li>
             <li><b>Mocks:</b> o armazém Gold, o login e a sessão, o atendente, o armazém de casos e os valores da política. Cada um mantém o contrato de produção. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/mocks.md">Mocks</a>.</li>
-            <li><b>Traduções:</b> as páginas em espanhol e português são traduções das páginas em inglês feitas por um modelo. Nenhum falante nativo as revisou.</li>
-            <li><b>Números:</b> nenhum é uma medição de produção.</li>
+            <li><b>Traduções:</b> um modelo escreveu as páginas em espanhol e português a partir das páginas em inglês. Nenhum falante nativo as revisou.</li>
+            <li><b>Números:</b> nenhum número é uma medição de produção.</li>
           </ul>
         </div>
         <div class="card">
@@ -173,14 +173,6 @@
           <p class="note">Cada item tem sua evidência no <a href="https://github.com/rdorta27/sentinel-engine/blob/main/README.md#roadmap">roteiro do README</a>.</p>
         </div>
       </div>
-    </section>
-    <section id="team" aria-labelledby="team-h">
-      <h2 id="team-h">Equipe</h2>
-      <ul class="team">
-        <li><a class="card" href="https://github.com/natalia-restrepo">Natalia Restrepo</a></li>
-        <li><a class="card" href="https://github.com/rdorta27">Rubén Dorta</a></li>
-        <li><a class="card" href="https://github.com/FELIX-UCHUBANDA">Félix Uchubanda</a></li>
-      </ul>
     </section>
   </main>
 

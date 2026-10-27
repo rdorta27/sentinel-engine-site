@@ -28,7 +28,7 @@
     <div class="hero">
       <div>
         <h1>The AI talks. <span>The rules decide.</span></h1>
-        <p class="lead">The customer says "I do not recognize this charge". Sentinel answers with a verified case in one conversation, or hands an advisor a complete case file. In Spanish and Portuguese. It acts only when the policy allows it, and it never invents a fact.</p>
+        <p class="lead">The customer says "I do not recognize this charge". Sentinel checks the facts. Then it opens a verified case, or it gives the advisor a complete file. The conversation stays in Spanish or Portuguese. Sentinel acts only when the policy allows it. It never invents a fact.</p>
         <div class="row">
           <a class="btn" href="#demo">See the cases</a>
           <a class="btn alt" href="diagrams/architecture.html">Explore the architecture</a>
@@ -42,7 +42,7 @@
             <span class="ok">Fact verified on your account</span>
             <div class="fake-btn" aria-hidden="true">Yes, open the dispute</div>
           </div>
-          <p class="note">The customer screen takes the bank brand. The product is the trust layer below it.</p>
+          <p class="note">The customer screen uses the bank brand. The product is the trust layer below it.</p>
         </div>
       </div>
     </div>
@@ -54,35 +54,35 @@
       <li><a href="#demo">Demo</a></li>
       <li><a href="#screens">Screenshots</a></li>
       <li><a href="#limits">Limits and roadmap</a></li>
-      <li><a href="#team">Team</a></li>
     </ul>
 
     <section id="how" aria-labelledby="how-h">
-      <h2 id="how-h">Five steps, each one checkable</h2>
-      <div class="grid">
-        <div class="card"><span class="step">1</span><h3>Understand</h3><p>A language model reads the request and labels the intent.</p></div>
-        <div class="card"><span class="step">2</span><h3>Look up</h3><p>The code reads the real charges of the session account. The model sees no customer id.</p></div>
-        <div class="card"><span class="step">3</span><h3>Decide</h3><p>The policy engine, in code, allows, refuses or hands off.</p></div>
-        <div class="card"><span class="step">4</span><h3>Verify</h3><p>The code checks that the case exists before it says so.</p></div>
-        <div class="card"><span class="step">5</span><h3>Hand off</h3><p>For fraud or a high amount, an advisor gets the verified facts.</p></div>
-      </div>
+      <h2 id="how-h">Five steps. Each one is easy to check.</h2>
+      <p class="note">Think of a bank branch. The model is the clerk who listens. The policy is the rulebook. The code is the cashier who checks the receipt before any money moves.</p>
+      <ul>
+        <li><b>Understand.</b> A language model reads the request. It labels the intent.</li>
+        <li><b>Look up.</b> The code reads the charges of the session account. The model never sees the customer id.</li>
+        <li><b>Decide.</b> The policy engine is code. It allows, refuses or hands off.</li>
+        <li><b>Verify.</b> The code checks that the case exists. It says so only after the check.</li>
+        <li><b>Hand off.</b> Fraud or a high amount goes to an advisor. The advisor gets the verified facts.</li>
+      </ul>
     </section>
 
     <section id="explore" aria-labelledby="explore-h">
       <h2 id="explore-h">See how it works</h2>
       <div class="grid">
-        <a class="card" href="diagrams/architecture.html"><span class="eyebrow">Architecture</span><p>Every part, marked real or mock. Switch to production to see what replaces each mock.</p></a>
-        <a class="card" href="diagrams/turn.html"><span class="eyebrow">One chat turn</span><p>Seven steps. Who decides, what goes in and out, and what can stop the turn.</p></a>
-        <a class="card" href="diagrams/cases.html"><span class="eyebrow">Three cases</span><p>Normal, ambiguous and a person is needed, on one decision map.</p></a>
-        <a class="card" href="diagrams/evidence.html"><span class="eyebrow">Evidence</span><p>Every bar with its denominator, its type and its summary field.</p></a>
-        <a class="card" href="for-banks.html"><span class="eyebrow">For banks</span><p>What it takes to run this at a bank: production path, safety and control, and answers to common questions.</p></a>
+        <a class="card" href="diagrams/architecture.html"><span class="eyebrow">Architecture</span><p>See every part. Each part is marked real or mock. Switch to production to see the replacement for each mock.</p></a>
+        <a class="card" href="diagrams/turn.html"><span class="eyebrow">One chat turn</span><p>Seven steps. See who decides, what goes in and out, and what can stop the turn.</p></a>
+        <a class="card" href="diagrams/cases.html"><span class="eyebrow">Three cases</span><p>Normal, ambiguous, and a person is needed. All three on one map.</p></a>
+        <a class="card" href="diagrams/evidence.html"><span class="eyebrow">Evidence</span><p>Every bar shows its denominator, its type and its summary field.</p></a>
+        <a class="card" href="for-banks.html"><span class="eyebrow">For banks</span><p>What it takes to run this at a bank. See the production path, safety and control, and common questions.</p></a>
         <a class="card" href="slides/deck.html"><span class="eyebrow">Slides</span><p>Six slides: why, what, how, proof, for the bank, limits and roadmap.</p></a>
       </div>
     </section>
 
     <section id="proof" aria-labelledby="proof-h">
       <h2 id="proof-h">Results, with their type</h2>
-      <p class="note">Each number comes from a frozen <code>summary.json</code> through <code>site/numbers.json</code>. The label tells what kind of number it is. A simulation is not a production measurement. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/what-is-real.md">What is real</a>.</p>
+      <p class="note">Each number comes from a frozen <code>summary.json</code>, through <code>site/numbers.json</code>. A label tells the type. A simulation is not a production measurement. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/what-is-real.md">What is real</a>.</p>
       <div class="grid">
         <div class="card">
           <span class="tag test" data-num-type="adv_attempted">Test suite</span>
@@ -105,13 +105,13 @@
         <div class="card">
           <span class="tag" data-num-type="intent_router">Simulation</span>
           <span class="big" data-num="intent_router">81.8%</span>
-          <p>of <span data-num-den="intent_router">308</span> sealed test turns understood correctly by the LLM router. The keyword baseline scores <span data-num="intent_baseline">69.2%</span>. A newer prompt scored higher but failed the safety gate, so we did not ship it.</p>
+          <p>of <span data-num-den="intent_router">308</span> sealed test turns understood correctly by the LLM router. The keyword baseline scores <span data-num="intent_baseline">69.2%</span>. A newer prompt scored higher. It failed the safety gate, so we did not ship it.</p>
           <span class="src">evaluation-runs/2024Q4-eval-v8 · candidates.router_v2.intent.accuracy</span>
         </div>
         <div class="card">
           <span class="tag" data-num-type="ceil_resolved">Simulation</span>
           <span class="big"><span data-num="ceil_resolved">16</span> of <span data-num-den="ceil_resolved">16</span></span>
-          <p>resolvable cases resolved. The policy lets <span data-num="ceil_resolvable">16</span> of <span data-num-den="ceil_resolvable">56</span> cases resolve. The others need a handoff or a question. <span data-num="res_unsafe">0/56</span> end unsafe. The router adds <span data-num="res_net">0</span> cases over the baseline: the baseline reaches the same ceiling.</p>
+          <p>resolvable cases resolved. The policy lets <span data-num="ceil_resolvable">16</span> of <span data-num-den="ceil_resolvable">56</span> cases resolve. The other cases need a handoff or a question. <span data-num="res_unsafe">0/56</span> end unsafe. The router adds <span data-num="res_net">0</span> cases over the baseline. The baseline reaches the same ceiling.</p>
           <span class="src">evaluation-runs/2024Q4-resolution-gap-v1 · ceiling.router_v2</span>
         </div>
         <div class="card">
@@ -125,7 +125,7 @@
 
     <section id="demo" aria-labelledby="demo-h">
       <h2 id="demo-h">Four cases to try</h2>
-      <p class="note">The customer replies in es-MX, es-CO, es-AR or pt-BR. The data behind the demo is synthetic and the Gold store is a labelled mock.</p>
+      <p class="note">The customer replies in es-MX, es-CO, es-AR or pt-BR. The data is synthetic. The Gold store is a labelled mock.</p>
       <div class="grid">
         <div class="card"><span class="eyebrow">Normal case</span><p>One charge, one confirmation, one verified case number.</p></div>
         <div class="card"><span class="eyebrow">Ambiguous case</span><p>Several equal purchases. The system asks which one before it acts.</p></div>
@@ -139,7 +139,7 @@
     </section>
     <section id="screens" aria-labelledby="screens-h">
       <h2 id="screens-h">Screenshots</h2>
-      <p class="note">Real screens of the running demo on a phone, in Spanish and in Portuguese. The demo uses test data and the keyword baseline, as the footer of each screen says. Taken with <code>scripts/capture_ui_product.py</code>.</p>
+      <p class="note">Real screens of the running demo on a phone, in Spanish and Portuguese. The demo uses test data and the keyword baseline. Each screen footer says so. Taken with <code>scripts/capture_ui_product.py</code>.</p>
       <div class="shots">
         <figure><a href="screenshots/entry-es-mx-phone.png"><img src="screenshots/entry-es-mx-phone.png" width="390" height="1683" loading="lazy" alt="Entry page of the demo on a phone, in Spanish (México), with four test cases."></a><figcaption>Entry page · Spanish (México)</figcaption></figure>
         <figure><a href="screenshots/chat-es-mx-phone.png"><img src="screenshots/chat-es-mx-phone.png" width="390" height="1538" loading="lazy" alt="Chat on a phone, in Spanish (México), after a verified case opens."></a><figcaption>Chat after a verified case · Spanish (México)</figcaption></figure>
@@ -154,11 +154,11 @@
         <div class="card">
           <h3>Limits</h3>
           <ul>
-            <li><b>Data:</b> synthetic, in Spanish only, for three countries. The Portuguese cases are model-written.</li>
-            <li><b>Ceiling:</b> the policy lets <span data-num="ceil_resolvable">16</span> of <span data-num-den="ceil_resolvable">56</span> simulated cases resolve (<span data-num-type="ceil_resolvable">Simulation</span>). The system resolves all of them and no other.</li>
+            <li><b>Data:</b> synthetic, in Spanish only, for three countries. A model wrote the Portuguese cases.</li>
+            <li><b>Ceiling:</b> the policy lets <span data-num="ceil_resolvable">16</span> of <span data-num-den="ceil_resolvable">56</span> simulated cases resolve (<span data-num-type="ceil_resolvable">Simulation</span>). The system resolves all of them. It resolves no other.</li>
             <li><b>Mocks:</b> the Gold store, login and session, the advisor, the case store and the policy values. Each keeps the production contract. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/mocks.md">Mocks</a>.</li>
-            <li><b>Translations:</b> the Spanish and Portuguese pages are model-written translations of the English pages. No native speaker reviewed them.</li>
-            <li><b>Numbers:</b> none is a production measurement.</li>
+            <li><b>Translations:</b> a model wrote the Spanish and Portuguese pages from the English pages. No native speaker reviewed them.</li>
+            <li><b>Numbers:</b> no number is a production measurement.</li>
           </ul>
         </div>
         <div class="card">
@@ -174,14 +174,6 @@
           <p class="note">Each item has its evidence in the <a href="https://github.com/rdorta27/sentinel-engine/blob/main/README.md#roadmap">README roadmap</a>.</p>
         </div>
       </div>
-    </section>
-    <section id="team" aria-labelledby="team-h">
-      <h2 id="team-h">Team</h2>
-      <ul class="team">
-        <li><a class="card" href="https://github.com/natalia-restrepo">Natalia Restrepo</a></li>
-        <li><a class="card" href="https://github.com/rdorta27">Rubén Dorta</a></li>
-        <li><a class="card" href="https://github.com/FELIX-UCHUBANDA">Félix Uchubanda</a></li>
-      </ul>
     </section>
   </main>
 
