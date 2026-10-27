@@ -331,18 +331,14 @@ def test_turn_page_uses_demo_lines_and_real_stops():
 
 
 @pytest.mark.core
-def test_judges_page_commands_and_links_exist():
-    html = (SITE / "judges.html").read_text()
+def test_for_banks_page_commands_and_links_exist():
+    html = (SITE / "for-banks.html").read_text()
     code = re.search(r"<pre><code>(.*?)</code></pre>", html, re.S).group(1)
-    assert "git clone https://github.com/" in code and "pip install -e" in code
+    assert "git clone https://github.com/" in code
     assert (CORE / "sentinel-ai-core/eval/run.py").exists() and "-m eval.run verify" in code
+    assert 'href="https://github.com/rdorta27/sentinel-engine#run-it-locally"' in html
     run = re.search(r"verify (\S+)", code).group(1)
     assert (CORE / "evidence/evaluation-runs" / run / "summary.json").exists()
-    env = (CORE / ".env.example").read_text()
-    for name in re.findall(r"export (SENTINEL_\w+)=", code):
-        assert name in env, name
-    extras = (CORE / "sentinel-ai-core/pyproject.toml").read_text()
-    assert "dev = [" in extras and "eval = [" in extras
     assert (CORE / "sentinel-ai-core/tests/adversarial").is_dir()
     # Every repository link of the page points to a file that exists.
     base = "https://github.com/rdorta27/sentinel-engine/blob/main/"
@@ -350,13 +346,13 @@ def test_judges_page_commands_and_links_exist():
         assert (CORE / rel).exists(), rel
 
 
-def test_judges_page_in_the_browser():
+def test_for_banks_page_in_the_browser():
     pytest = __import__("pytest")
     sync = pytest.importorskip("playwright.sync_api")
     chromium = next((p for p in ("/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome") if Path(p).exists()), None)
     if not chromium:
         pytest.skip("no Chromium found")
-    url = (SITE / "judges.html").as_uri()
+    url = (SITE / "for-banks.html").as_uri()
     with sync.sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=chromium, args=["--no-sandbox"])
         page = browser.new_page(viewport={"width": 390, "height": 800})
@@ -368,6 +364,11 @@ def test_judges_page_in_the_browser():
         assert page.locator("details[open]").count() == 1
         assert all(u.startswith("file:") for u in requests), requests
         browser.close()
+
+
+def test_no_page_links_to_the_old_judges_page():
+    for page in sorted(SITE.rglob("*.html")):
+        assert "judges.html" not in page.read_text(), page
 
 
 # --- languages: English, Spanish (es-419) and Portuguese (pt-BR) ---
@@ -457,7 +458,7 @@ def test_all_languages_in_the_browser():
     with sync.sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=chromium, args=["--no-sandbox"])
         for lang in LANGS:
-            for page in ("index.html", "judges.html", "diagrams/architecture.html", "diagrams/cases.html", "diagrams/evidence.html", "diagrams/turn.html", "slides/deck.html"):
+            for page in ("index.html", "for-banks.html", "diagrams/architecture.html", "diagrams/cases.html", "diagrams/evidence.html", "diagrams/turn.html", "slides/deck.html"):
                 for width in (1280, 390):
                     p = browser.new_page(viewport={"width": width, "height": 800})
                     errors, requests = [], []

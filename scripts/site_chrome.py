@@ -27,7 +27,7 @@ NAV = [
     ("One turn", "diagrams/turn.html"),
     ("Cases", "diagrams/cases.html"),
     ("Evidence", "diagrams/evidence.html"),
-    ("Evaluate", "judges.html"),
+    ("For banks", "for-banks.html"),
     ("Slides", "slides/deck.html"),
 ]
 

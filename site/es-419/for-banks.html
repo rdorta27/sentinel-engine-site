@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Evaluar · Sentinel Engine</title>
-<meta name="description" content="Camino a producción, cómo reproducir una corrida, IA responsable y respuestas breves.">
+<title>Para bancos · Sentinel Engine</title>
+<meta name="description" content="Lo que un banco pregunta primero: camino a producción, qué comprobar, seguridad y control, y respuestas a preguntas frecuentes.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
@@ -22,36 +22,36 @@ details p { margin: 0 0 12px; color: var(--muted); }
 .langs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
 main { display: flex; flex-direction: column; gap: 18px; padding-bottom: 24px; }
 </style>
-<!--site:alt--><link rel="alternate" hreflang="en" data-lang="en" href="../judges.html"><link rel="alternate" hreflang="es-419" data-lang="es-419" href="judges.html"><link rel="alternate" hreflang="pt-BR" data-lang="pt-br" href="../pt-br/judges.html"><script src="../lang.js"></script><!--/site:alt-->
+<!--site:alt--><link rel="alternate" hreflang="en" data-lang="en" href="../for-banks.html"><link rel="alternate" hreflang="es-419" data-lang="es-419" href="for-banks.html"><link rel="alternate" hreflang="pt-BR" data-lang="pt-br" href="../pt-br/for-banks.html"><script src="../lang.js"></script><!--/site:alt-->
 </head>
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
 <div class="wrap">
   <!--site:header--><header class="top">
     <a class="logo" href="index.html"><img src="../favicon.svg" width="34" height="34" alt="">Sentinel</a>
-    <nav aria-label="Principal"><a href="index.html">Inicio</a><a href="diagrams/architecture.html">Arquitectura</a><a href="diagrams/turn.html">Un turno</a><a href="diagrams/cases.html">Casos</a><a href="diagrams/evidence.html">Evidencia</a><a href="judges.html" aria-current="page">Evaluar</a><a href="slides/deck.html">Diapositivas</a><a class="cta" href="https://github.com/rdorta27/sentinel-engine">GitHub</a></nav>
-    <div class="lang" role="group" aria-label="Idioma" data-t="keep"><a lang="en" hreflang="en" data-lang="en" href="../judges.html" title="English (United States)">English (US)</a><a lang="es-419" hreflang="es-419" data-lang="es-419" aria-current="true" href="judges.html" title="Español (Latinoamérica)">Español (LA)</a><a lang="pt-BR" hreflang="pt-BR" data-lang="pt-br" href="../pt-br/judges.html" title="Português (Brasil)">Português (BR)</a></div>
+    <nav aria-label="Principal"><a href="index.html">Inicio</a><a href="diagrams/architecture.html">Arquitectura</a><a href="diagrams/turn.html">Un turno</a><a href="diagrams/cases.html">Casos</a><a href="diagrams/evidence.html">Evidencia</a><a href="for-banks.html" aria-current="page">Para bancos</a><a href="slides/deck.html">Diapositivas</a><a class="cta" href="https://github.com/rdorta27/sentinel-engine">GitHub</a></nav>
+    <div class="lang" role="group" aria-label="Idioma" data-t="keep"><a lang="en" hreflang="en" data-lang="en" href="../for-banks.html" title="English (United States)">English (US)</a><a lang="es-419" hreflang="es-419" data-lang="es-419" aria-current="true" href="for-banks.html" title="Español (Latinoamérica)">Español (LA)</a><a lang="pt-BR" hreflang="pt-BR" data-lang="pt-br" href="../pt-br/for-banks.html" title="Português (Brasil)">Português (BR)</a></div>
   </header><!--/site:header-->
   <main id="main">
-    <h1>Evaluar</h1>
-    <p class="lead">Lo que pregunta primero un revisor: ¿llega a producción?, ¿puedo reproducirlo?, ¿es responsable la IA? y ¿qué es real?</p>
+    <h1>Para bancos</h1>
+    <p class="lead">Lo que un banco pregunta primero: ¿puede llegar a producción?, ¿es seguro y está bajo control?, ¿podemos confiar en las cifras?</p>
     <ul class="toc" aria-label="Secciones">
       <li><a href="#production">Camino a producción</a></li>
-      <li><a href="#reproduce">Reproducir</a></li>
-      <li><a href="#responsible">IA responsable</a></li>
+      <li><a href="#reproduce">Compruébalo tú mismo</a></li>
+      <li><a href="#responsible">Seguridad y control</a></li>
       <li><a href="#questions">Preguntas</a></li>
     </ul>
 
     <section id="production" aria-labelledby="production-h">
       <h2 id="production-h">Camino a producción</h2>
-      <p class="note">La demo ejecuta el mismo código que producción. Esta tabla lista solo lo que debe cambiar. Cada fila enlaza a su página. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/specification.md#path-to-production">Tabla completa</a>.</p>
+      <p class="note">El prototipo ejecuta el mismo código que producción, con los mocks documentados. Esta tabla enumera solo lo que debe cambiar. Cada fila enlaza a su página. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/specification.md#path-to-production">Tabla completa</a>.</p>
       <div class="tablewrap" tabindex="0" aria-label="Tabla del camino a producción">
       <table>
         <thead><tr><th>Área</th><th>Hoy</th><th>Antes de producción</th></tr></thead>
         <tbody>
           <tr><td>Identidad</td><td>Sesión de prueba</td><td>El proveedor de identidad del banco. Credenciales en Azure Key Vault.</td></tr>
           <tr><td>Estado</td><td>SQLite en una réplica</td><td>PostgreSQL, con los mismos modelos, para más de una instancia.</td></tr>
-          <tr><td>Gold</td><td>Un mock identificado en el enlace público</td><td>Gold en Databricks. Aún no se decidió cómo leerlo al momento de cada solicitud.</td></tr>
+          <tr><td>Gold</td><td>Un mock etiquetado en la ejecución local</td><td>Gold en Databricks. Aún no se decidió cómo leerlo al momento de cada solicitud.</td></tr>
           <tr><td>Política</td><td>Valores sintéticos, identificados</td><td>La política aprobada del banco, en el mismo formato.</td></tr>
           <tr><td>Traspaso</td><td>Una vista de asesor de demostración</td><td>Una cola que crea el ticket en el CRM del banco, enrutado por idioma y especialidad.</td></tr>
           <tr><td>LLM</td><td>GLM 5.3 Flash en Fireworks AI</td><td>Los mismos pesos en Azure AI Foundry o Databricks, con cuotas y un tope de gasto.</td></tr>
@@ -64,21 +64,17 @@ main { display: flex; flex-direction: column; gap: 18px; padding-bottom: 24px; }
     </section>
 
     <section id="reproduce" aria-labelledby="reproduce-h">
-      <h2 id="reproduce-h">Reproducir</h2>
-      <p>Clona el repositorio, ejecuta las pruebas y repite una corrida congelada sin conexión. No se necesita clave de modelo, credencial de nube ni datos.</p>
+      <h2 id="reproduce-h">Compruébalo tú mismo</h2>
+      <p>Puedes comprobar la evidencia y reproducir una corrida congelada sin conexión. No se necesita ninguna clave de modelo, ningún dato bancario ni ninguna credencial de nube. La configuración completa está en <a href="https://github.com/rdorta27/sentinel-engine#run-it-locally">Ejecútalo localmente</a>.</p>
 <pre><code>git clone https://github.com/rdorta27/sentinel-engine.git
 cd sentinel-engine/sentinel-ai-core
-pip install -e ".[dev,eval]"
-SENTINEL_WRITE_EVIDENCE=0 python3 -m pytest -q
-export SENTINEL_LLM_CHEAP_MODEL=accounts/fireworks/models/glm-5p3-flash
-export SENTINEL_LLM_STRONG_MODEL=accounts/fireworks/models/glm-5p3-flash
 python3 -m eval.run verify 2024Q4-train-v1</code></pre>
-      <p class="note">Los dos nombres de modelo son públicos. No son claves. El comando <code>verify</code> no hace ninguna llamada real. Recalcula una corrida congelada a partir de sus grabaciones y la compara con su <code>summary.json</code>. Hoy <code>2024Q4-train-v1</code> coincide. Las corridas <code>2024Q4-resolution-v1</code> y <code>2024Q4-resolution-v2</code> difieren de una repetición del código actual, porque el código cambió después de medirlas. Una corrida congelada nunca se edita: una medición nueva es una corrida nueva. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/evidence/README.md#evaluation-runs">Índice de evidencia</a>.</p>
+      <p class="note">El comando <code>verify</code> no hace ninguna llamada en vivo. Recalcula una corrida congelada a partir de sus grabaciones y la compara con su <code>summary.json</code>. Hoy <code>2024Q4-train-v1</code> coincide. Las corridas <code>2024Q4-resolution-v1</code> y <code>2024Q4-resolution-v2</code> difieren de un replay del código actual, porque el código cambió después de medirlas. Una corrida congelada nunca se edita: una nueva medición es una nueva corrida. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/evidence/README.md#evaluation-runs">Índice de evidencia</a>.</p>
       <p class="note">La suite de ataques escribe una corrida nueva solo cuando lo pides: <code>SENTINEL_WRITE_EVIDENCE=1 python3 -m pytest tests/adversarial -q</code>.</p>
     </section>
 
     <section id="responsible" aria-labelledby="responsible-h">
-      <h2 id="responsible-h">IA responsable</h2>
+      <h2 id="responsible-h">Seguridad y control</h2>
       <div class="grid two">
         <div class="card">
           <h3>Lo que el modelo nunca recibe</h3>
@@ -129,6 +125,7 @@ python3 -m eval.run verify 2024Q4-train-v1</code></pre>
       <details><summary>¿Por qué el techo de resolución es <span data-num="ceil_resolvable">16</span> de <span data-num-den="ceil_resolvable">56</span>?</summary><p>La política deja resolver solo esos casos simulados. Los demás casos deben terminar en un traspaso o en una pregunta. Tanto la línea base como el enrutador LLM resuelven todos los casos bajo el techo. El conjunto no puede distinguirlos en resolución.</p></details>
       <details><summary>Entonces, ¿qué aporta el enrutador LLM?</summary><p>Etiqueta mejor la intención: <span data-num="intent_router">81.8%</span> frente a <span data-num="intent_baseline">69.2%</span> de la línea base de palabras clave en <span data-num-den="intent_router">308</span> turnos reservados. Es una simulación con casos escritos por el equipo.</p></details>
       <details><summary>¿Decide el modelo?</summary><p>No. El modelo etiqueta la intención. El código enmascara, busca, decide, actúa y vuelve a leer el caso.</p></details>
+      <details><summary>¿Qué requeriría un piloto?</summary><p>La tabla del camino a producción lo enumera: el proveedor de identidad del banco, PostgreSQL para más de una instancia, Gold en Databricks, la política aprobada, una cola hacia el CRM del banco, el alojamiento del modelo con cuotas y un tope de gasto, monitoreo para cada país y una prueba de carga como puerta de lanzamiento. Ninguna fecha ni precio forma parte de este prototipo.</p></details>
     </section>
   </main>
   <!--site:footer--><footer>
