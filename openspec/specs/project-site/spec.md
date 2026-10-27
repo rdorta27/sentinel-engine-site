@@ -73,6 +73,23 @@ The site SHALL be available in English, Spanish (es-419) and Portuguese (pt-BR).
 
 - **WHEN** a visitor with no saved choice opens the English home page and the browser language is Spanish or Portuguese
 - **THEN** the page opens in that language, and the switch can change it
+- **WHEN** the browser language is not English, Spanish or Portuguese
+- **THEN** the page stays in English
+
+#### Scenario: Saved choice
+
+- **WHEN** a visitor chose a language on an earlier visit and opens any page
+- **THEN** the same page opens in that language, even if the browser language is different
+
+#### Scenario: Translated landing page
+
+- **WHEN** a visitor with no saved choice opens a translated page
+- **THEN** the page stays in that language
+
+#### Scenario: Query and anchor
+
+- **WHEN** the language changes on a page with a query or an anchor
+- **THEN** the new page keeps the same query and anchor
 
 #### Scenario: A text with no translation
 

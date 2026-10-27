@@ -495,42 +495,101 @@ def test_browser_language_is_the_default_and_the_choice_is_kept():
     if not chromium:
         pytest.skip("no Chromium found")
     home = (SITE / "index.html").as_uri()
+    es_home = (SITE / "es-419" / "index.html").as_uri()
+    pt_home = (SITE / "pt-br" / "index.html").as_uri()
     with sync.sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=chromium, args=["--no-sandbox"])
 
-        def open_home(locale: str):
+        # The browser chooses the first supported language. Anything else is English.
+        for locale, expected in (
+            ("es-MX", "/es-419/index.html"),
+            ("es-CO", "/es-419/index.html"),
+            ("es-ES", "/es-419/index.html"),
+            ("pt-BR", "/pt-br/index.html"),
+            ("pt-PT", "/pt-br/index.html"),
+            ("en-US", "/site/index.html"),
+            ("en-GB", "/site/index.html"),
+            ("fr-FR", "/site/index.html"),
+            ("de-DE", "/site/index.html"),
+        ):
             ctx = browser.new_context(locale=locale)
             page = ctx.new_page()
             page.goto(home)
-            return ctx, page
-
-        for locale, expected in (("es-MX", "/es-419/index.html"), ("es-CO", "/es-419/index.html"), ("pt-BR", "/pt-br/index.html"), ("en-US", "/site/index.html"), ("fr-FR", "/site/index.html")):
-            ctx, page = open_home(locale)
+            page.wait_for_timeout(200)
             assert page.url.endswith(expected), (locale, page.url)
             ctx.close()
-        # A Spanish page that someone opens directly stays in Spanish.
+
+        # No saved choice: a translated page stays in its language.
         ctx = browser.new_context(locale="en-US")
         page = ctx.new_page()
-        page.goto((SITE / "es-419" / "index.html").as_uri())
+        page.goto(es_home)
+        page.wait_for_timeout(200)
         assert page.url.endswith("/es-419/index.html")
-        # The visitor changes the language. The choice stays for the next visit.
-        page.click('.lang a[data-lang="pt-br"]')
-        assert page.url.endswith("/pt-br/index.html")
+        ctx.close()
+
+        # The switch saves a canonical value under knowman-lang.
+        ctx = browser.new_context(locale="en-US")
+        page = ctx.new_page()
         page.goto(home)
+        page.click('.lang a[data-lang="es-419"]')
+        page.wait_for_timeout(200)
+        assert page.url.endswith("/es-419/index.html")
+        assert page.evaluate("localStorage.getItem('knowman-lang')") == "es"
+        page.click('.lang a[data-lang="pt-br"]')
+        page.wait_for_timeout(200)
+        assert page.url.endswith("/pt-br/index.html")
+        assert page.evaluate("localStorage.getItem('knowman-lang')") == "pt-BR"
+        page.click('.lang a[data-lang="en"]')
+        page.wait_for_timeout(200)
+        assert page.url.endswith("/site/index.html")
+        assert page.evaluate("localStorage.getItem('knowman-lang')") == "en"
+        ctx.close()
+
+        # The saved choice wins over the browser and over the landing page.
+        ctx = browser.new_context(locale="en-US")
+        page = ctx.new_page()
+        page.goto(home)
+        page.click('.lang a[data-lang="pt-br"]')
+        page.wait_for_timeout(200)
+        page.goto(es_home)
+        page.wait_for_timeout(200)
         assert page.url.endswith("/pt-br/index.html"), page.url
         page.click('.lang a[data-lang="en"]')
-        assert page.url.endswith("/site/index.html")
-        page.goto(home)
-        assert page.url.endswith("/site/index.html"), "English was chosen: no redirect"
+        page.wait_for_timeout(200)
+        page.goto(pt_home)
+        page.wait_for_timeout(200)
+        assert page.url.endswith("/site/index.html"), page.url
         ctx.close()
-        # An English browser that chose Spanish earlier keeps Spanish. A Spanish browser that chose English keeps English.
+
+        # An invalid saved value is ignored. The browser decides on English pages.
         ctx = browser.new_context(locale="es-MX")
         page = ctx.new_page()
         page.goto(home)
+        page.wait_for_timeout(200)
         assert page.url.endswith("/es-419/index.html")
-        page.click('.lang a[data-lang="en"]')
+        page.evaluate("localStorage.setItem('knowman-lang', 'fr-FR')")
         page.goto(home)
-        assert page.url.endswith("/site/index.html")
+        page.wait_for_timeout(200)
+        assert page.url.endswith("/es-419/index.html"), page.url
+        ctx.close()
+
+        # The redirect keeps the query and the anchor.
+        ctx = browser.new_context(locale="es-MX")
+        page = ctx.new_page()
+        page.goto(home + "?utm=1#limits")
+        page.wait_for_timeout(200)
+        assert page.url.endswith("/es-419/index.html?utm=1#limits"), page.url
+        ctx.close()
+
+        # A saved choice also keeps the query and the anchor.
+        ctx = browser.new_context(locale="en-US")
+        page = ctx.new_page()
+        page.goto(home)
+        page.click('.lang a[data-lang="es-419"]')
+        page.wait_for_timeout(200)
+        page.goto(pt_home + "?utm=2#main")
+        page.wait_for_timeout(200)
+        assert page.url.endswith("/es-419/index.html?utm=2#main"), page.url
         ctx.close()
         browser.close()
 
@@ -553,7 +612,7 @@ def test_screenshots_are_on_the_home_page():
         assert (SITE / src).exists() and len(alt) > 20, src
 
 
-def test_language_in_the_address_wins_over_the_browser():
+def test_language_buttons_fit_at_320():
     pytest = __import__("pytest")
     sync = pytest.importorskip("playwright.sync_api")
     chromium = next((p for p in ("/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome") if Path(p).exists()), None)
@@ -562,20 +621,21 @@ def test_language_in_the_address_wins_over_the_browser():
     home = (SITE / "index.html").as_uri()
     with sync.sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=chromium, args=["--no-sandbox"])
-        # A Spanish browser that opens the link with ?lang=en reads English, and the choice is kept.
-        ctx = browser.new_context(locale="es-MX")
-        page = ctx.new_page()
-        page.goto(home + "?lang=en")
-        assert page.url.split("?")[0].endswith("/site/index.html")
-        page.goto(home)
-        assert page.url.endswith("/site/index.html"), page.url
-        ctx.close()
-        # The address can also ask for another language, even from a translated page.
-        ctx = browser.new_context(locale="en-US")
-        page = ctx.new_page()
-        page.goto(home + "?lang=pt")
-        assert "/pt-br/index.html" in page.url, page.url
-        page.goto((SITE / "pt-br" / "index.html").as_uri() + "?lang=es")
-        assert "/es-419/index.html" in page.url, page.url
-        ctx.close()
+        for width in (320, 390):
+            page = browser.new_page(viewport={"width": width, "height": 800})
+            page.goto(home)
+            page.wait_for_timeout(200)
+            assert not page.evaluate("document.documentElement.scrollWidth > innerWidth"), width
+            links = page.locator("header.top .lang a")
+            assert links.count() == 3
+            for i in range(3):
+                link = links.nth(i)
+                rects = link.evaluate("e => { const r = document.createRange(); r.selectNodeContents(e); return r.getClientRects().length; }")
+                assert rects == 1, (width, link.inner_text())
+                box = link.bounding_box()
+                assert box["height"] >= 44, (width, link.inner_text(), box)
+            # The language control keeps its border. The menu stays plain text.
+            assert page.eval_on_selector("header.top .lang a", "e => getComputedStyle(e).borderTopWidth") != "0px"
+            assert page.eval_on_selector("header.top nav a:not(.cta)", "e => getComputedStyle(e).borderTopWidth") == "0px"
+            page.close()
         browser.close()

@@ -81,6 +81,7 @@ header.top .logo { order: 1; }
 header.top .lang { order: 2; margin-left: auto; }
 header.top nav { order: 3; width: 100%; margin-left: 0; }
 @media (max-width: 520px) { .lang a, .hudlang a { min-width: 0; padding: 0 9px; font-size: 12px; } .lang { gap: 3px; } }
+@media (max-width: 360px) { .lang { gap: 2px; flex-wrap: wrap; } .lang a { padding: 0 6px; white-space: nowrap; } }
 .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; align-items: start; }
 .shots figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
 .shots a { display: block; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--card); }

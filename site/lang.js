@@ -1,36 +1,102 @@
 (function () {
-  // The language of the page follows the address (?lang=en), then the last choice, then the browser.
-  var KEY = "sentinel-lang";
-  var NAMES = { en: "en", es: "es-419", "es-419": "es-419", pt: "pt-br", "pt-br": "pt-br" };
-  function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
-  function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
-  function go(lang) {
-    var alt = document.querySelector('link[rel="alternate"][data-lang="' + lang + '"]');
-    if (alt) { location.replace(alt.href + location.hash); }
+  // The language follows the saved choice, then the browser, then the page.
+  // The selector links say where each language lives. This script adds no routes.
+  var KEY = "knowman-lang";
+
+  function canonical(value) {
+    if (!value) { return null; }
+    var v = String(value);
+    if (v === "en" || v.indexOf("en-") === 0) { return "en"; }
+    if (v === "es" || v.indexOf("es-") === 0) { return "es"; }
+    if (v === "pt" || v.indexOf("pt-") === 0) { return "pt-BR"; }
+    return null;
   }
-  var html = document.documentElement.lang;
-  var here = html.indexOf("es") === 0 ? "es-419" : html === "pt-BR" ? "pt-br" : "en";
-  document.addEventListener("click", function (e) {
-    var a = e.target.closest && e.target.closest("a[data-lang]");
-    if (a) { set(a.getAttribute("data-lang")); }
-  });
-  var q = /[?&]lang=([\w-]+)/.exec(location.search);
-  var asked = q ? NAMES[q[1].toLowerCase()] : null;
-  if (asked) {
-    set(asked);
-    if (asked !== here) { go(asked); }
-    return;
+
+  function valid(value) {
+    return value === "en" || value === "es" || value === "pt-BR";
   }
-  if (here !== "en") { return; }
-  var want = get();
-  if (!want) {
-    var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "en"];
-    for (var i = 0; i < list.length; i++) {
-      var p = String(list[i]).toLowerCase().split("-")[0];
-      if (p === "es") { want = "es-419"; break; }
-      if (p === "pt") { want = "pt-br"; break; }
-      if (p === "en") { want = "en"; break; }
+
+  function saved() {
+    try {
+      var value = localStorage.getItem(KEY);
+      return valid(value) ? value : null;
+    } catch (e) {
+      return null;
     }
   }
-  if (want && want !== "en") { go(want); }
+
+  function remember(value) {
+    var lang = canonical(value);
+    if (!valid(lang)) { return; }
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+  }
+
+  function pageLang() {
+    return canonical(document.documentElement.lang);
+  }
+
+  function browserLang() {
+    var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "en"];
+    for (var i = 0; i < list.length; i++) {
+      var primary = String(list[i]).toLowerCase().split("-")[0];
+      if (primary === "en") { return "en"; }
+      if (primary === "es") { return "es"; }
+      if (primary === "pt") { return "pt-BR"; }
+    }
+    return "en";
+  }
+
+  function findLink(want) {
+    var links = document.querySelectorAll("a[hreflang]");
+    for (var i = 0; i < links.length; i++) {
+      if (canonical(links[i].getAttribute("hreflang")) === want) { return links[i]; }
+    }
+    return null;
+  }
+
+  function show() {
+    document.documentElement.style.visibility = "";
+  }
+
+  function go(want) {
+    var link = findLink(want);
+    if (!link) { show(); return; }
+    var target;
+    try {
+      target = new URL(link.getAttribute("href"), location.href);
+    } catch (e) {
+      show(); return;
+    }
+    target.search = location.search;
+    target.hash = location.hash;
+    if (target.href === location.href) { show(); return; }
+    location.replace(target.href);
+  }
+
+  document.addEventListener("click", function (e) {
+    var node = e.target;
+    while (node && node !== document) {
+      if (node.tagName === "A" && node.hasAttribute("hreflang")) {
+        remember(node.getAttribute("hreflang"));
+        return;
+      }
+      node = node.parentNode;
+    }
+  });
+
+  var here = pageLang();
+  var want = saved();
+  if (!want) {
+    want = here === "en" ? browserLang() : here;
+  }
+  if (!want || want === here) { return; }
+
+  // Hide the page until the target is known. A missing link shows it again.
+  document.documentElement.style.visibility = "hidden";
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () { go(want); });
+  } else {
+    go(want);
+  }
+  setTimeout(show, 2000);
 })();
