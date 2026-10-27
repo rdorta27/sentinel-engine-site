@@ -1,0 +1,8 @@
+# Generated slide PDFs
+*.pdf
+
+# Python
+__pycache__/
+.venv/
+*.pyc
+.pytest_cache/
