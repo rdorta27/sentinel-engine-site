@@ -1,0 +1,64 @@
+name: pages
+
+# Checks the site on its own and publishes site/ to GitHub Pages when a push to main changes it.
+# The site is plain HTML, CSS and SVG. There is no build step: the generators only check.
+# The checks that read files of sentinel-engine run in cross-check.yml and never block a deploy.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "scripts/**"
+      - "requirements.txt"
+      - ".github/workflows/pages.yml"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Pages match the numbers and the translations
+        run: |
+          python3 scripts/slots.py --check
+          python3 scripts/localize.py --check
+          python3 scripts/build_architecture.py --check
+          python3 scripts/build_turn.py --check
+          python3 scripts/build_cases.py --check
+          python3 scripts/build_evidence.py --check
+      - name: Tests, in the browser too
+        run: python3 -m pytest -q -m "not core"
+
+  deploy:
+    needs: check
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v5

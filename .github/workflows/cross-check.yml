@@ -1,0 +1,37 @@
+name: cross-check
+
+# The site links to files of sentinel-engine and quotes its docs. This run clones
+# sentinel-engine and checks that every link and quoted line still exists.
+# It is separate from pages.yml: a change in sentinel-engine never blocks a deploy.
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "scripts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    env:
+      SENTINEL_CORE: ${{ github.workspace }}/sentinel-engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: rdorta27/sentinel-engine
+          path: sentinel-engine
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Links and quoted lines match sentinel-engine
+        run: python3 -m pytest -q -m core

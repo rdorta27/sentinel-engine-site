@@ -75,6 +75,8 @@ def test_page_details():
     home = (SITE / "index.html").read_text()
     assert 'name="description"' in home and 'rel="icon"' in home
     assert (SITE / "404.html").exists() and (SITE / "favicon.svg").exists()
+    # Pages serves 404.html at any depth, so its home link cannot be relative or point at the root of the account.
+    assert 'href="/sentinel-engine-site/"' in (SITE / "404.html").read_text()
     assert "prefers-color-scheme: dark" in (SITE / "style.css").read_text()
 
 
