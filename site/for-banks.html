@@ -68,8 +68,12 @@ main { display: flex; flex-direction: column; gap: 18px; padding-bottom: 24px; }
       <p>You can check the evidence and replay a frozen run offline. No model key, no bank data and no cloud credential are needed. The full setup is in <a href="https://github.com/rdorta27/sentinel-engine#run-it-locally">Run it locally</a>.</p>
 <pre><code>git clone https://github.com/rdorta27/sentinel-engine.git
 cd sentinel-engine/sentinel-ai-core
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev,eval]"
+export SENTINEL_LLM_CHEAP_MODEL=accounts/fireworks/models/glm-5p3-flash
+export SENTINEL_LLM_STRONG_MODEL=accounts/fireworks/models/glm-5p3-flash
 python3 -m eval.run verify 2024Q4-train-v1</code></pre>
-      <p class="note">The <code>verify</code> command makes no live call. It recomputes a frozen run from its recordings and compares it with its <code>summary.json</code>. Today <code>2024Q4-train-v1</code> matches. The runs <code>2024Q4-resolution-v1</code> and <code>2024Q4-resolution-v2</code> differ from a replay of the current code, because the code changed after they were measured. A frozen run is never edited: a new measurement is a new run. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/evidence/README.md#evaluation-runs">Evidence index</a>.</p>
+      <p class="note">The two model names are public. They are not keys. The <code>verify</code> command makes no live call. It recomputes a frozen run from its recordings and compares it with its <code>summary.json</code>. At the time of writing, <code>2024Q4-train-v1</code>, <code>2024Q4-resolution-v1</code> and <code>2024Q4-resolution-v2</code> match their frozen summaries. A frozen run is never edited: a new measurement is a new run. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/evidence/README.md#evaluation-runs">Evidence index</a>.</p>
       <p class="note">The attack suite writes a new run only when you ask for it: <code>SENTINEL_WRITE_EVIDENCE=1 python3 -m pytest tests/adversarial -q</code>.</p>
     </section>
 
@@ -96,8 +100,8 @@ python3 -m eval.run verify 2024Q4-train-v1</code></pre>
         <div class="card">
           <span class="tag test" data-num-type="adv_attempted">Test suite</span>
           <h3>Attacks</h3>
-          <p><strong data-num="adv_rate">0/42</strong> unsafe outcomes in <span data-num="adv_attempted">42</span> attacks. <span data-num="adv_mock">3</span> injection attempts pass only because the stand-in model is the keyword baseline. We say so.</p>
-          <span class="src">evidence/adversarial/20261005T014816Z · totals</span>
+          <p><strong data-num="adv_rate">0/42</strong> unsafe outcomes in <span data-num="adv_attempted">42</span> attacks. The <span data-num="adv_mock">3</span> injection attempts that the suite counts as safe only with the mock model were also run on the real model: <span data-num="adv_real">0/3</span> unsafe. We say so.</p>
+          <span class="src">evidence/adversarial/20261005T014816Z · totals; evidence/adversarial/20261005T204313Z · totals</span>
         </div>
         <div class="card">
           <h3>Fairness limits</h3>

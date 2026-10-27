@@ -336,6 +336,8 @@ def test_for_banks_page_commands_and_links_exist():
     code = re.search(r"<pre><code>(.*?)</code></pre>", html, re.S).group(1)
     assert "git clone https://github.com/" in code
     assert (CORE / "sentinel-ai-core/eval/run.py").exists() and "-m eval.run verify" in code
+    assert 'pip install -e ".[dev,eval]"' in code
+    assert "SENTINEL_LLM_CHEAP_MODEL=" in code and "SENTINEL_LLM_STRONG_MODEL=" in code
     assert 'href="https://github.com/rdorta27/sentinel-engine#run-it-locally"' in html
     run = re.search(r"verify (\S+)", code).group(1)
     assert (CORE / "evidence/evaluation-runs" / run / "summary.json").exists()
@@ -344,6 +346,12 @@ def test_for_banks_page_commands_and_links_exist():
     base = "https://github.com/rdorta27/sentinel-engine/blob/main/"
     for rel in re.findall(re.escape(base) + r"([^\"#]+)", html):
         assert (CORE / rel).exists(), rel
+
+
+def test_for_banks_page_cites_the_real_model_run():
+    html = (SITE / "for-banks.html").read_text()
+    assert 'data-num="adv_real"' in html
+    assert "pass only because the stand-in model" not in html
 
 
 def test_for_banks_page_in_the_browser():

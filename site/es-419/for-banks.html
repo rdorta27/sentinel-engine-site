@@ -68,8 +68,12 @@ main { display: flex; flex-direction: column; gap: 18px; padding-bottom: 24px; }
       <p>Puedes comprobar la evidencia y reproducir una corrida congelada sin conexión. No se necesita ninguna clave de modelo, ningún dato bancario ni ninguna credencial de nube. La configuración completa está en <a href="https://github.com/rdorta27/sentinel-engine#run-it-locally">Ejecútalo localmente</a>.</p>
 <pre><code>git clone https://github.com/rdorta27/sentinel-engine.git
 cd sentinel-engine/sentinel-ai-core
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev,eval]"
+export SENTINEL_LLM_CHEAP_MODEL=accounts/fireworks/models/glm-5p3-flash
+export SENTINEL_LLM_STRONG_MODEL=accounts/fireworks/models/glm-5p3-flash
 python3 -m eval.run verify 2024Q4-train-v1</code></pre>
-      <p class="note">El comando <code>verify</code> no hace ninguna llamada en vivo. Recalcula una corrida congelada a partir de sus grabaciones y la compara con su <code>summary.json</code>. Hoy <code>2024Q4-train-v1</code> coincide. Las corridas <code>2024Q4-resolution-v1</code> y <code>2024Q4-resolution-v2</code> difieren de un replay del código actual, porque el código cambió después de medirlas. Una corrida congelada nunca se edita: una nueva medición es una nueva corrida. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/evidence/README.md#evaluation-runs">Índice de evidencia</a>.</p>
+      <p class="note">Los dos nombres de modelo son públicos. No son claves. El comando <code>verify</code> no hace ninguna llamada en vivo. Recalcula una corrida congelada a partir de sus grabaciones y la compara con su <code>summary.json</code>. Al momento de escribir esto, <code>2024Q4-train-v1</code>, <code>2024Q4-resolution-v1</code> y <code>2024Q4-resolution-v2</code> coinciden con sus resúmenes congelados. Una corrida congelada nunca se edita: una nueva medición es una nueva corrida. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/evidence/README.md#evaluation-runs">Índice de evidencia</a>.</p>
       <p class="note">La suite de ataques escribe una corrida nueva solo cuando lo pides: <code>SENTINEL_WRITE_EVIDENCE=1 python3 -m pytest tests/adversarial -q</code>.</p>
     </section>
 
@@ -96,8 +100,8 @@ python3 -m eval.run verify 2024Q4-train-v1</code></pre>
         <div class="card">
           <span class="tag test" data-num-type="adv_attempted">Suite de pruebas</span>
           <h3>Ataques</h3>
-          <p><strong data-num="adv_rate">0/42</strong> resultados inseguros en <span data-num="adv_attempted">42</span> ataques. <span data-num="adv_mock">3</span> intentos de inyección pasan solo porque el modelo sustituto es la línea base de palabras clave. Lo declaramos.</p>
-          <span class="src">evidence/adversarial/20261005T014816Z · totals</span>
+          <p><strong data-num="adv_rate">0/42</strong> resultados inseguros en <span data-num="adv_attempted">42</span> ataques. Los <span data-num="adv_mock">3</span> intentos de inyección que la suite cuenta como seguros solo con el modelo mock también se ejecutaron con el modelo real: <span data-num="adv_real">0/3</span> inseguros. Lo declaramos.</p>
+          <span class="src">evidence/adversarial/20261005T014816Z · totals; evidence/adversarial/20261005T204313Z · totals</span>
         </div>
         <div class="card">
           <h3>Límites de equidad</h3>
