@@ -48,7 +48,9 @@
     </div>
 
     <ul class="toc" aria-label="On this page">
-      <li><a href="#how">How it works</a></li>
+      <li><a href="#concept">Concept</a></li>
+      <li><a href="#analogy">Analogy</a></li>
+      <li><a href="#mechanics">Mechanics</a></li>
       <li><a href="#explore">Explore</a></li>
       <li><a href="#proof">Results</a></li>
       <li><a href="#demo">Demo</a></li>
@@ -56,15 +58,24 @@
       <li><a href="#limits">Limits and roadmap</a></li>
     </ul>
 
-    <section id="how" aria-labelledby="how-h">
-      <h2 id="how-h">Five steps. Each one is easy to check.</h2>
-      <p class="note">Think of a bank branch. The model is the clerk who listens. The policy is the rulebook. The code is the cashier who checks the receipt before any money moves.</p>
+    <section id="concept" aria-labelledby="concept-h">
+      <h2 id="concept-h">Concept</h2>
+      <p>Sentinel turns a disputed charge into a verified case or a handoff. The model labels the intent. The code checks the facts, applies the bank policy and verifies the result.</p>
+    </section>
+
+    <section id="analogy" aria-labelledby="analogy-h">
+      <h2 id="analogy-h">Physical analogy</h2>
+      <p>Think of a bank branch. The model is the clerk who listens. The policy is the rulebook. The code is the cashier who checks the receipt before any money moves.</p>
+    </section>
+
+    <section id="mechanics" aria-labelledby="mechanics-h">
+      <h2 id="mechanics-h">Technical mechanics</h2>
       <ul>
-        <li><b>Understand.</b> A language model reads the request. It labels the intent.</li>
-        <li><b>Look up.</b> The code reads the charges of the session account. The model never sees the customer id.</li>
-        <li><b>Decide.</b> The policy engine is code. It allows, refuses or hands off.</li>
-        <li><b>Verify.</b> The code checks that the case exists. It says so only after the check.</li>
-        <li><b>Hand off.</b> Fraud or a high amount goes to an advisor. The advisor gets the verified facts.</li>
+        <li><b>Understand.</b> A language model reads the request and labels the intent.</li>
+        <li><b>Look up.</b> The code reads the session account charges; the model never sees the customer id.</li>
+        <li><b>Decide.</b> The policy engine runs in code and allows, refuses or hands off.</li>
+        <li><b>Verify.</b> The code confirms the case exists before it reports it.</li>
+        <li><b>Hand off.</b> Fraud or a high amount goes to an advisor with the verified facts.</li>
       </ul>
     </section>
 
@@ -105,7 +116,7 @@
         <div class="card">
           <span class="tag" data-num-type="intent_router">Simulation</span>
           <span class="big" data-num="intent_router">81.8%</span>
-          <p>of <span data-num-den="intent_router">308</span> sealed test turns understood correctly by the LLM router. The keyword baseline scores <span data-num="intent_baseline">69.2%</span>. A newer prompt scored higher. It failed the safety gate, so we did not ship it.</p>
+          <p>of <span data-num-den="intent_router">308</span> sealed test turns that the LLM router understood correctly. The keyword baseline scores <span data-num="intent_baseline">69.2%</span>. A newer prompt scored higher. It failed the safety gate, so we did not ship it.</p>
           <span class="src">evaluation-runs/2024Q4-eval-v8 · candidates.router_v2.intent.accuracy</span>
         </div>
         <div class="card">
@@ -139,7 +150,7 @@
     </section>
     <section id="screens" aria-labelledby="screens-h">
       <h2 id="screens-h">Screenshots</h2>
-      <p class="note">Real screens of the running demo on a phone, in Spanish and Portuguese. The demo uses test data and the keyword baseline. Each screen footer says so. Taken with <code>scripts/capture_ui_product.py</code>.</p>
+      <p class="note">Real screens of the running demo on a phone, in Spanish and Portuguese. The demo uses test data and the keyword baseline. Each screen footer says so. The screenshots come from <code>scripts/capture_ui_product.py</code>.</p>
       <div class="shots">
         <figure><a href="screenshots/entry-es-mx-phone.png"><img src="screenshots/entry-es-mx-phone.png" width="390" height="1683" loading="lazy" alt="Entry page of the demo on a phone, in Spanish (México), with four test cases."></a><figcaption>Entry page · Spanish (México)</figcaption></figure>
         <figure><a href="screenshots/chat-es-mx-phone.png"><img src="screenshots/chat-es-mx-phone.png" width="390" height="1538" loading="lazy" alt="Chat on a phone, in Spanish (México), after a verified case opens."></a><figcaption>Chat after a verified case · Spanish (México)</figcaption></figure>

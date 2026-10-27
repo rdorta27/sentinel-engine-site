@@ -10,10 +10,6 @@
 <link rel="stylesheet" href="../style.css">
 <style>
 pre { margin: 0; padding: 14px 16px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); overflow-x: auto; font: 14px/1.5 var(--mono); }
-table { border-collapse: collapse; width: 100%; font-size: 15px; }
-th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
-th { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
-.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
 .toc { display: flex; flex-direction: row; gap: 8px; flex-wrap: wrap; padding: 0; list-style: none; margin: 0; }
 .toc a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 22px; background: var(--card); text-decoration: none; font-weight: 600; }
 details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px; }
@@ -34,38 +30,48 @@ main { display: flex; flex-direction: column; gap: 18px; padding-bottom: 24px; }
   </header><!--/site:header-->
   <main id="main">
     <h1>Para bancos</h1>
-    <p class="lead">Lo que un banco pregunta primero: ¿puede llegar a producción?, ¿es seguro y está bajo control?, ¿podemos confiar en las cifras?</p>
     <ul class="toc" aria-label="Secciones">
+      <li><a href="#concept">Concepto</a></li>
+      <li><a href="#analogy">Analogía</a></li>
+      <li><a href="#mechanics">Mecánica</a></li>
       <li><a href="#production">Camino a producción</a></li>
       <li><a href="#reproduce">Compruébalo tú mismo</a></li>
       <li><a href="#responsible">Seguridad y control</a></li>
       <li><a href="#questions">Preguntas</a></li>
     </ul>
 
+    <section id="concept" aria-labelledby="concept-h">
+      <h2 id="concept-h">Concepto</h2>
+      <p>Un banco hace tres preguntas: ¿puede llegar a producción?, ¿es seguro?, ¿podemos confiar en las cifras? Esta página responde cada pregunta con evidencia y límites.</p>
+    </section>
+
+    <section id="analogy" aria-labelledby="analogy-h">
+      <h2 id="analogy-h">Analogía física</h2>
+      <p>Piensa en una sucursal bancaria. El modelo es el empleado que escucha. La política es el manual de reglas. El código es el cajero que revisa el recibo antes de mover dinero.</p>
+    </section>
+
+    <section id="mechanics" aria-labelledby="mechanics-h">
+      <h2 id="mechanics-h">Mecánica técnica</h2>
+
     <section id="production" aria-labelledby="production-h">
-      <h2 id="production-h">Camino a producción</h2>
-      <p class="note">El prototipo ejecuta el mismo código que producción, con los mocks documentados. Esta tabla enumera solo lo que debe cambiar. Cada fila enlaza a su página. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/specification.md#path-to-production">Tabla completa</a>.</p>
-      <div class="tablewrap" tabindex="0" aria-label="Tabla del camino a producción">
-      <table>
-        <thead><tr><th>Área</th><th>Hoy</th><th>Antes de producción</th></tr></thead>
-        <tbody>
-          <tr><td>Identidad</td><td>Sesión de prueba</td><td>El proveedor de identidad del banco. Credenciales en Azure Key Vault.</td></tr>
-          <tr><td>Estado</td><td>SQLite en una réplica</td><td>PostgreSQL, con los mismos modelos, para más de una instancia.</td></tr>
-          <tr><td>Gold</td><td>Un mock etiquetado en la ejecución local</td><td>Gold en Databricks. Aún no se decidió cómo leerlo al momento de cada solicitud.</td></tr>
-          <tr><td>Política</td><td>Valores sintéticos, identificados</td><td>La política aprobada del banco, en el mismo formato.</td></tr>
-          <tr><td>Traspaso</td><td>Una vista de asesor de demostración</td><td>Una cola que crea el ticket en el CRM del banco, enrutado por idioma y especialidad.</td></tr>
-          <tr><td>LLM</td><td>GLM 5.3 Flash en Fireworks AI</td><td>Los mismos pesos en Azure AI Foundry o Databricks, con cuotas y un tope de gasto.</td></tr>
-          <tr><td>Capacidad</td><td>Sin prueba de carga del endpoint del chat</td><td>Una prueba de carga como requisito de lanzamiento. Ver <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/sizing-capacity.md">dimensionamiento</a>.</td></tr>
-          <tr><td>Monitoreo</td><td>Registros de turnos. Una carga repetida, agrupada por país e idioma.</td><td>Trazas centralizadas y alertas para cada país.</td></tr>
-          <tr><td>Costo</td><td>Una estimación del despliegue</td><td>Ver <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/build/cost.md">costo</a>. Es una proyección, no una medición.</td></tr>
-        </tbody>
-      </table>
-      </div>
+      <h3 id="production-h">Camino a producción</h3>
+      <p class="note">El prototipo ejecuta el mismo código que producción, con los mocks documentados. Esta lista nombra solo lo que debe cambiar. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/specification.md#path-to-production">Tabla completa</a>.</p>
+      <ul>
+        <li><b>Identidad.</b> Hoy hay una sesión de prueba; antes de producción, el proveedor de identidad del banco y Azure Key Vault.</li>
+        <li><b>Estado.</b> Hoy, SQLite en una réplica; antes de producción, PostgreSQL para más de una instancia.</li>
+        <li><b>Gold.</b> Hoy es un mock etiquetado en la ejecución local. Antes de producción, Gold en Databricks; la lectura en cada solicitud aún no está decidida.</li>
+        <li><b>Política.</b> Hoy hay valores sintéticos; antes de producción, la política aprobada del banco en el mismo formato.</li>
+        <li><b>Traspaso.</b> Hoy hay una vista de asesor de demostración. Antes de producción, una cola hacia el CRM del banco, enrutada por idioma y especialidad.</li>
+        <li><b>LLM.</b> Hoy, GLM 5.3 Flash en Fireworks AI. Antes de producción, los mismos pesos en Azure AI Foundry o Databricks, con cuotas y un tope de gasto.</li>
+        <li><b>Capacidad.</b> Hoy no hay prueba de carga. Una prueba de carga como requisito de lanzamiento antes de producción. Ver <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/sizing-capacity.md">dimensionamiento</a>.</li>
+        <li><b>Monitoreo.</b> Hoy hay registros de turnos. Antes de producción, trazas centrales y alertas para cada país.</li>
+        <li><b>Costo.</b> Hoy es una estimación. Antes de producción, una proyección, no una medición. Ver <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/build/cost.md">costo</a>.</li>
+      </ul>
     </section>
 
     <section id="reproduce" aria-labelledby="reproduce-h">
-      <h2 id="reproduce-h">Compruébalo tú mismo</h2>
-      <p>Puedes comprobar la evidencia y reproducir una corrida congelada sin conexión. No se necesita ninguna clave de modelo, ningún dato bancario ni ninguna credencial de nube. La configuración completa está en <a href="https://github.com/rdorta27/sentinel-engine#run-it-locally">Ejecútalo localmente</a>.</p>
+      <h3 id="reproduce-h">Compruébalo tú mismo</h3>
+      <p>Puedes comprobar la evidencia y reproducir una corrida congelada sin conexión. No necesitas ninguna clave de modelo, ningún dato bancario ni ninguna credencial de nube. La configuración completa está en <a href="https://github.com/rdorta27/sentinel-engine#run-it-locally">Ejecútalo localmente</a>.</p>
 <pre><code>git clone https://github.com/rdorta27/sentinel-engine.git
 cd sentinel-engine/sentinel-ai-core
 python3 -m venv .venv && source .venv/bin/activate
@@ -73,17 +79,17 @@ pip install -e ".[dev,eval]"
 export SENTINEL_LLM_CHEAP_MODEL=accounts/fireworks/models/glm-5p3-flash
 export SENTINEL_LLM_STRONG_MODEL=accounts/fireworks/models/glm-5p3-flash
 python3 -m eval.run verify 2024Q4-train-v1</code></pre>
-      <p class="note">Los dos nombres de modelo son públicos. No son claves. El comando <code>verify</code> no hace ninguna llamada en vivo. Recalcula una corrida congelada a partir de sus grabaciones y la compara con su <code>summary.json</code>. Al momento de escribir esto, <code>2024Q4-train-v1</code>, <code>2024Q4-resolution-v1</code> y <code>2024Q4-resolution-v2</code> coinciden con sus resúmenes congelados. Una corrida congelada nunca se edita: una nueva medición es una nueva corrida. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/evidence/README.md#evaluation-runs">Índice de evidencia</a>.</p>
+      <p class="note">Los dos nombres de modelo son públicos. No son claves. El comando <code>verify</code> no hace ninguna llamada en vivo. Recalcula una corrida congelada a partir de sus grabaciones. Compara el resultado con el <code>summary.json</code> de la corrida. Al momento de escribir esto, <code>2024Q4-train-v1</code>, <code>2024Q4-resolution-v1</code> y <code>2024Q4-resolution-v2</code> coinciden. El equipo nunca edita una corrida congelada. Una nueva medición es una nueva corrida. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/evidence/README.md#evaluation-runs">Índice de evidencia</a>.</p>
       <p class="note">La suite de ataques escribe una corrida nueva solo cuando lo pides: <code>SENTINEL_WRITE_EVIDENCE=1 python3 -m pytest tests/adversarial -q</code>.</p>
     </section>
 
     <section id="responsible" aria-labelledby="responsible-h">
-      <h2 id="responsible-h">Seguridad y control</h2>
+      <h3 id="responsible-h">Seguridad y control</h3>
       <div class="grid two">
         <div class="card">
           <h3>Lo que el modelo nunca recibe</h3>
           <ul>
-            <li>El id del cliente. Las herramientas están ligadas a la sesión.</li>
+            <li>El id del cliente. La sesión vincula las herramientas.</li>
             <li>Identificadores personales. El código los enmascara por patrón antes de cualquier llamada al modelo.</li>
             <li>La decisión. El modelo etiqueta la intención. Decide el motor de políticas.</li>
           </ul>
@@ -100,7 +106,7 @@ python3 -m eval.run verify 2024Q4-train-v1</code></pre>
         <div class="card">
           <span class="tag test" data-num-type="adv_attempted">Suite de pruebas</span>
           <h3>Ataques</h3>
-          <p><strong data-num="adv_rate">0/42</strong> resultados inseguros en <span data-num="adv_attempted">42</span> ataques. Los <span data-num="adv_mock">3</span> intentos de inyección que la suite cuenta como seguros solo con el modelo mock también se ejecutaron con el modelo real: <span data-num="adv_real">0/3</span> inseguros. Lo declaramos.</p>
+          <p><strong data-num="adv_rate">0/42</strong> resultados inseguros en <span data-num="adv_attempted">42</span> ataques. La suite cuenta <span data-num="adv_mock">3</span> intentos de inyección como seguros solo con el modelo mock. También los ejecutamos con el modelo real: <span data-num="adv_real">0/3</span> inseguros. Lo declaramos.</p>
           <span class="src">evidence/adversarial/20261005T014816Z · totals; evidence/adversarial/20261005T204313Z · totals</span>
         </div>
         <div class="card">
@@ -119,17 +125,18 @@ python3 -m eval.run verify 2024Q4-train-v1</code></pre>
         <div class="card"><span class="eyebrow">es-MX</span><span class="big" data-num="lang_es_mx">81.8%</span><p>en <span data-num-den="lang_es_mx">77</span> casos</p></div>
         <div class="card"><span class="eyebrow">pt-BR</span><span class="big" data-num="lang_pt_br">81.8%</span><p>en <span data-num-den="lang_pt_br">77</span> casos</p></div>
       </div>
-      <p class="note">Los casos en portugués los escribió un modelo. Ningún hablante nativo los revisó. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/build/decisions/018-evaluation-acceptance.md">Decisión 018</a>.</p>
+      <p class="note">Un modelo escribió los casos en portugués. Ningún hablante nativo los revisó. <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/build/decisions/018-evaluation-acceptance.md">Decisión 018</a>.</p>
     </section>
 
     <section id="questions" aria-labelledby="questions-h">
-      <h2 id="questions-h">Preguntas frecuentes</h2>
+      <h3 id="questions-h">Preguntas frecuentes</h3>
       <details><summary>¿Está en producción?</summary><p>No. Es un prototipo. Ejecuta el código que ejecutaría producción, con mocks documentados. Ningún número de este sitio es una medición de producción.</p></details>
       <details><summary>¿Qué es un mock?</summary><p>Un sustituto con el mismo contrato que la pieza de producción. Producción reemplaza el backend y conserva el código. La <a href="https://github.com/rdorta27/sentinel-engine/blob/main/docs/architecture/mocks.md">página de mocks</a> lista cada uno con su límite. El <a href="diagrams/architecture.html">diagrama de arquitectura</a> los marca.</p></details>
       <details><summary>¿Por qué el techo de resolución es <span data-num="ceil_resolvable">16</span> de <span data-num-den="ceil_resolvable">56</span>?</summary><p>La política deja resolver solo esos casos simulados. Los demás casos deben terminar en un traspaso o en una pregunta. Tanto la línea base como el enrutador LLM resuelven todos los casos bajo el techo. El conjunto no puede distinguirlos en resolución.</p></details>
-      <details><summary>Entonces, ¿qué aporta el enrutador LLM?</summary><p>Etiqueta mejor la intención: <span data-num="intent_router">81.8%</span> frente a <span data-num="intent_baseline">69.2%</span> de la línea base de palabras clave en <span data-num-den="intent_router">308</span> turnos reservados. Es una simulación con casos escritos por el equipo.</p></details>
+      <details><summary>Entonces, ¿qué aporta el enrutador LLM?</summary><p>Etiqueta mejor la intención. Obtiene <span data-num="intent_router">81.8%</span> frente a <span data-num="intent_baseline">69.2%</span> de la línea base de palabras clave en <span data-num-den="intent_router">308</span> turnos reservados. Es una simulación con casos escritos por el equipo.</p></details>
       <details><summary>¿Decide el modelo?</summary><p>No. El modelo etiqueta la intención. El código enmascara, busca, decide, actúa y vuelve a leer el caso.</p></details>
-      <details><summary>¿Qué requeriría un piloto?</summary><p>La tabla del camino a producción lo enumera: el proveedor de identidad del banco, PostgreSQL para más de una instancia, Gold en Databricks, la política aprobada, una cola hacia el CRM del banco, el alojamiento del modelo con cuotas y un tope de gasto, monitoreo para cada país y una prueba de carga como puerta de lanzamiento. Ninguna fecha ni precio forma parte de este prototipo.</p></details>
+      <details><summary>¿Qué requeriría un piloto?</summary><p>La lista del camino a producción nombra el trabajo: identidad, estado, Gold, política, traspaso, LLM, capacidad y monitoreo. Ninguna fecha ni precio forma parte de este prototipo.</p></details>
+    </section>
     </section>
   </main>
   <!--site:footer--><footer>

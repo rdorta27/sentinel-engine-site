@@ -47,7 +47,9 @@
     </div>
 
     <ul class="toc" aria-label="En esta página">
-      <li><a href="#how">Cómo funciona</a></li>
+      <li><a href="#concept">Concepto</a></li>
+      <li><a href="#analogy">Analogía</a></li>
+      <li><a href="#mechanics">Mecánica</a></li>
       <li><a href="#explore">Explorar</a></li>
       <li><a href="#proof">Resultados</a></li>
       <li><a href="#demo">Demo</a></li>
@@ -55,15 +57,24 @@
       <li><a href="#limits">Límites y hoja de ruta</a></li>
     </ul>
 
-    <section id="how" aria-labelledby="how-h">
-      <h2 id="how-h">Cinco pasos. Cada uno es fácil de comprobar.</h2>
-      <p class="note">Piensa en una sucursal bancaria. El modelo es el empleado que escucha. La política es el manual de reglas. El código es el cajero que revisa el recibo antes de mover dinero.</p>
+    <section id="concept" aria-labelledby="concept-h">
+      <h2 id="concept-h">Concepto</h2>
+      <p>Sentinel convierte un cargo en disputa en un caso verificado o en un traspaso. El modelo etiqueta la intención. El código comprueba los datos, aplica la política del banco y verifica el resultado.</p>
+    </section>
+
+    <section id="analogy" aria-labelledby="analogy-h">
+      <h2 id="analogy-h">Analogía física</h2>
+      <p>Piensa en una sucursal bancaria. El modelo es el empleado que escucha. La política es el manual de reglas. El código es el cajero que revisa el recibo antes de mover dinero.</p>
+    </section>
+
+    <section id="mechanics" aria-labelledby="mechanics-h">
+      <h2 id="mechanics-h">Mecánica técnica</h2>
       <ul>
-        <li><b>Entiende.</b> Un modelo de lenguaje lee la solicitud. Etiqueta la intención.</li>
-        <li><b>Busca.</b> El código lee los cargos de la cuenta de la sesión. El modelo nunca ve el id del cliente.</li>
-        <li><b>Decide.</b> El motor de políticas es código. Permite, rechaza o traspasa.</li>
-        <li><b>Verifica.</b> El código comprueba que el caso existe. Solo lo dice después de la comprobación.</li>
-        <li><b>Traspasa.</b> El fraude o un monto alto va a un asesor. El asesor recibe los datos verificados.</li>
+        <li><b>Entiende.</b> Un modelo de lenguaje lee la solicitud y etiqueta la intención.</li>
+        <li><b>Busca.</b> El código lee los cargos de la cuenta de la sesión; el modelo nunca ve el id del cliente.</li>
+        <li><b>Decide.</b> El motor de políticas se ejecuta en código y permite, rechaza o traspasa.</li>
+        <li><b>Verifica.</b> El código confirma que el caso existe antes de informarlo.</li>
+        <li><b>Traspasa.</b> El fraude o un monto alto va a un asesor con los datos verificados.</li>
       </ul>
     </section>
 
@@ -104,7 +115,7 @@
         <div class="card">
           <span class="tag" data-num-type="intent_router">Simulación</span>
           <span class="big" data-num="intent_router">81.8%</span>
-          <p>de <span data-num-den="intent_router">308</span> turnos de prueba sellados que el router LLM entiende bien. La línea base de palabras clave obtiene <span data-num="intent_baseline">69.2%</span>. Un prompt más nuevo obtuvo más. No pasó el control de seguridad, así que no lo pusimos en servicio.</p>
+          <p>de <span data-num-den="intent_router">308</span> turnos de prueba sellados que el router LLM entendió bien. La línea base de palabras clave obtiene <span data-num="intent_baseline">69.2%</span>. Un prompt más nuevo obtuvo más. No pasó el control de seguridad, así que no lo pusimos en servicio.</p>
           <span class="src">evaluation-runs/2024Q4-eval-v8 · candidates.router_v2.intent.accuracy</span>
         </div>
         <div class="card">
@@ -138,7 +149,7 @@
     </section>
     <section id="screens" aria-labelledby="screens-h">
       <h2 id="screens-h">Capturas de pantalla</h2>
-      <p class="note">Capturas reales de la demostración en un teléfono, en español y portugués. La demostración usa datos de prueba y la línea base de palabras clave. El pie de cada pantalla lo dice. Tomadas con <code>scripts/capture_ui_product.py</code>.</p>
+      <p class="note">Capturas reales de la demostración en un teléfono, en español y portugués. La demostración usa datos de prueba y la línea base de palabras clave. El pie de cada pantalla lo dice. Las capturas vienen de <code>scripts/capture_ui_product.py</code>.</p>
       <div class="shots">
         <figure><a href="../screenshots/entry-es-mx-phone.png"><img src="../screenshots/entry-es-mx-phone.png" width="390" height="1683" loading="lazy" alt="Página de entrada de la demo en un teléfono, en español (México), con cuatro casos de prueba."></a><figcaption>Página de entrada · Español (México)</figcaption></figure>
         <figure><a href="../screenshots/chat-es-mx-phone.png"><img src="../screenshots/chat-es-mx-phone.png" width="390" height="1538" loading="lazy" alt="Chat en un teléfono, en español (México), después de que se abre un caso verificado."></a><figcaption>Chat tras un caso verificado · Español (México)</figcaption></figure>
