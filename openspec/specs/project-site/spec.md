@@ -42,6 +42,15 @@ The site SHALL offer standalone interactive diagrams of the architecture, one ch
 - **WHEN** a diagram shows a metric
 - **THEN** it shows the denominator, the type label and the field of the evidence
 
+### Requirement: The site answers the questions of a bank
+
+The site SHALL offer a page at `for-banks.html` that explains the path to production, what a bank can verify, the safety and control of the system, the results by language and the common questions. Each number on the page SHALL come from `site/numbers.json` and SHALL show its type. The page SHALL link to the repository for the full setup. Traces to REQ-0051 (P0, In progress) and REQ-0056 (P0, In progress).
+
+#### Scenario: A bank reads the page
+
+- **WHEN** a bank reader opens `for-banks.html`
+- **THEN** the page shows the production gaps, the checks the reader can run and the limits of the results
+
 ### Requirement: The site holds no secret
 
 The site SHALL NOT hold a password, a key, a bucket name, an account id or a dataset row. The "Try it" section SHALL say that the credentials are in the submission email. Traces to REQ-0034 (P0, Done) and REQ-0027 (P0, Done).
