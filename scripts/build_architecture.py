@@ -37,7 +37,7 @@ STYLE = """
 svg.arch{--bg:#faf8f5;--t:#1c1830;--mu:#4a4460;--card:#fff;--line:#cfc8de;--real:#1b6a49;--real-bg:#e5f4ec;--mock:#8a4a0b;--mock-bg:#fdeedd;--prod:#3a1fb8;--prod-bg:#f1edff;--model:#e23e78;--code:#4f2fe0}
 @media (prefers-color-scheme:dark){svg.arch{--bg:#14112a;--t:#f1eefb;--mu:#b9b3d0;--card:#1e1a38;--line:#4a4378;--real:#7fd9ae;--real-bg:#173a2c;--mock:#f3b46e;--mock-bg:#3d2a10;--prod:#c4b8ff;--prod-bg:#2a2350;--model:#ff7aa6;--code:#8e78ff}}
 svg.arch .bg{fill:var(--bg)}
-svg.arch text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;fill:var(--t)}
+svg.arch text{font-family:"Liberation Sans","Helvetica Neue",Arial,Helvetica,sans-serif;fill:var(--t)}
 svg.arch .box{fill:var(--card);stroke:var(--line);stroke-width:1.5}
 svg.arch .node.real .box{stroke:var(--real)}
 svg.arch .node.mock .box{stroke:var(--mock);stroke-dasharray:6 3}
