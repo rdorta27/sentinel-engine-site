@@ -59,8 +59,8 @@ def test_no_secret_on_the_site():
 
 
 def test_no_external_request():
-    # Links (<a href>) may leave the site. Loaded resources may not.
-    load = re.compile(r'<(?:script|img|link|iframe|source|video|audio)\b[^>]*?(?:src|href)="(?:https?:)?//', re.I)
+    # Links (<a href>, the canonical address) may leave the site. Loaded resources may not.
+    load = re.compile(r'<(?:script|img|link(?![^>]*rel="canonical")|iframe|source|video|audio)\b[^>]*?(?:src|href)="(?:https?:)?//', re.I)
     for page in PAGES:
         assert not load.search(page.read_text()), page.name
     for css in SITE.rglob("*.css"):

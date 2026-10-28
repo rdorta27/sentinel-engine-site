@@ -33,7 +33,9 @@ VOID = {"meta", "link", "br", "img", "input", "hr", "area", "base", "col", "sour
 INLINE = {"a", "b", "strong", "em", "code", "span", "small", "br", "abbr", "i", "u", "sup", "sub", "text", "tspan", "cite"}
 ASSET_EXT = {".css", ".js", ".png", ".ico", ".json", ".pdf", ".jpg", ".webp", ".svg"}
 ATTRS = ("aria-label", "alt", "data-demo", "data-prod", "data-note-demo", "data-note-prod", "placeholder")
-META_NAMES = {"description", "og:title", "og:description"}
+META_NAMES = {"description", "og:title", "og:description", "twitter:title", "twitter:description", "og:image:alt"}
+PUBLIC = "https://rdorta27.github.io/sentinel-engine-site/"
+OG_LOCALE = {"en": "en_US", "es-419": "es_LA", "pt-br": "pt_BR"}
 
 TOKEN = re.compile(r"<!--.*?-->|<!doctype[^>]*>|<(script|style)\b[^>]*>.*?</\1>|<[^>]+>|[^<]+", re.S | re.I)
 NUM = re.compile(r"&#?\w+;|\d+(?:[.,]\d+)*%?")
@@ -333,6 +335,11 @@ def finalize(html: str, page: str, lang: str, mirrored: set[str]) -> str:
             lambda m: m.group(1) + cur + m.group(2) + href + m.group(3),
             html,
         )
+    # Canonical address, og:url and og:locale of this language copy.
+    public = PUBLIC + re.sub(r"(^|/)index\.html$", r"\1", out_page)
+    html = re.sub(r'(<link rel="canonical" href=")[^"]*(")', lambda m: m.group(1) + public + m.group(2), html)
+    html = re.sub(r'(<meta property="og:url" content=")[^"]*(")', lambda m: m.group(1) + public + m.group(2), html)
+    html = re.sub(r'(<meta property="og:locale" content=")[^"]*(")', lambda m: m.group(1) + OG_LOCALE[lang] + m.group(2), html)
     html = re.sub(r'(<html lang=")[^"]*(")', lambda m: m.group(1) + dict((d, h) for d, _l, _n, h in chrome.LANGS)[lang] + m.group(2), html, count=1)
     if "</head>" in html:
         alts = "".join(

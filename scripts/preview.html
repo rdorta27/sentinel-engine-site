@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Source of site/preview.png, the 1200x630 sharing image. Render it with:
+     chromium --headless --disable-gpu --hide-scrollbars --window-size=1200,630 --screenshot=site/preview.png scripts/preview.html -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { background: #faf8f5; color: #1c1830; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+         display: flex; flex-direction: column; justify-content: space-between; padding: 72px 80px; box-sizing: border-box;
+         border-top: 14px solid #4f2fe0; }
+  .name { display: flex; align-items: center; gap: 18px; font: 700 34px/1 Georgia, "Times New Roman", serif; }
+  h1 { margin: 0; font: 400 84px/1.05 Georgia, "Times New Roman", serif; letter-spacing: -1px; }
+  h1 span { color: #4f2fe0; }
+  p { margin: 22px 0 0; font-size: 32px; line-height: 1.35; color: #4a4460; max-width: 980px; }
+  .foot { display: flex; justify-content: space-between; align-items: center; font-size: 24px; color: #4a4460; }
+  .tag { font-weight: 700; font-size: 20px; letter-spacing: .06em; text-transform: uppercase; padding: 10px 18px; border-radius: 22px; background: #f1edff; color: #3a1fb8; }
+</style>
+</head>
+<body>
+  <div class="name"><img src="../site/favicon.svg" width="56" height="56" alt="">Sentinel Engine</div>
+  <div>
+    <h1>The AI talks. <span>The rules decide.</span></h1>
+    <p>A trust layer for bank customer-service AI. Deterministic rules decide; every action is checked first.</p>
+  </div>
+  <div class="foot"><span class="tag">Engineering prototype · demo data</span><span>rdorta27.github.io/sentinel-engine-site</span></div>
+</body>
+</html>
